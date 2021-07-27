@@ -1,6 +1,4 @@
-# This file is auto generated from it's template,
-# see citusdata/tools/packaging_automation/templates/docker/latest/latest.tmpl.dockerfile.
-FROM postgres:13.3
+FROM postgres:13.2
 ARG VERSION=10.1.0
 LABEL maintainer="Citus Data https://citusdata.com" \
       org.label-schema.name="Citus" \
@@ -26,7 +24,7 @@ RUN apt-get update \
     && rm -rf /var/lib/apt/lists/*
 
 # add citus to default PostgreSQL config
-RUN echo "shared_preload_libraries='citus'" >> /usr/share/postgresql/postgresql.conf.sample
+RUN echo "shared_preload_libraries='citus,pg_stat_statements'" >> /usr/share/postgresql/postgresql.conf.sample
 
 # add scripts to run after initdb
 COPY 001-create-citus-extension.sql /docker-entrypoint-initdb.d/
