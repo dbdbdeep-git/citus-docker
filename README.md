@@ -6,31 +6,18 @@
 
 Citus is a PostgreSQL-based distributed RDBMS. For more information, see the [Citus Data website][citus data].
 
-## Function
-
-This image provides a single running Citus instance (atop PostgreSQL 12.2), using standard configuration values. It is based on [the official PostgreSQL image][docker-postgres], so be sure to consult that image’s documentation for advanced configuration options (including non-default settings for e.g. `PGDATA` or `POSTGRES_USER`).
-
-Just like the standard PostgreSQL image, this image exposes port `5432`. In other words, all containers on the same Docker network should be able to connect on this port, and exposing it externally will permit connections from external clients (`psql`, adapters, applications).
-
-## Usage
-
-Since Citus is intended for use within a cluster, there are many ways to deploy it. This repository provides configuration to permit two kinds of deployment: local (standalone) or local (with workers).
-
-### Standalone Use
-
-If you just want to run a single Citus instance, it’s pretty easy to get started:
-
+### Shell script
 ```bash
-docker run --name citus_standalone -p 5432:5432 citusdata/citus
+
+$ 0_conn_master.sh
+$ 1_build_image.sh
+$ 2_startup.sh
+$ 3_stat_worker.sh
+$ 4_add_worker.sh
+$ 5_stat_worker.sh
+$ 6_shutdown.sh
+
 ```
-
-You should now be able to connect to `127.0.0.1` on port `5432` using e.g. `psql` to run a few commands (see the Citus documentation for more information).
-
-As with the PostgreSQL image, the default `PGDATA` directory will be mounted as a volume, so it will persist between restarts of the container. But while the above _will_ get you a running Citus instance, it won’t have any workers to exercise distributed query planning. For that, you may wish to try the included [`docker-compose.yml`][compose-config] configuration.
-
-#### Nightly Image
-
-In addition to the `latest` (release) tag and the major-, minor-, and patch-specific tags, the `Dockerfile` in the `nightly` directory builds a tagged image with the latest Citus nightly (from the Citus `master` branch).
 
 ### Docker Compose
 
