@@ -1,3 +1,4 @@
 #!/bin/bash
 
-docker-compose -p citus scale worker=3
+docker-compose -p citus up --scale worker=3 --no-recreate worker
+

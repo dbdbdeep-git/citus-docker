@@ -17,5 +17,6 @@ SELECT * FROM citus_stat_statements;
 SELECT * FROM citus_shards;
 
 
+SELECT citus_get_active_worker_nodes();
 SELECT master_get_active_worker_nodes();
 SELECT * FROM citus_worker_stat_activity;

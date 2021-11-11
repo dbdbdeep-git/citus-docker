@@ -1,25 +1,24 @@
-FROM postgres:13.2
-ARG VERSION=10.1.0
+FROM postgres:14
 LABEL maintainer="Citus Data https://citusdata.com" \
       org.label-schema.name="Citus" \
       org.label-schema.description="Scalable PostgreSQL for multi-tenant and real-time workloads" \
       org.label-schema.url="https://www.citusdata.com" \
       org.label-schema.vcs-url="https://github.com/citusdata/citus" \
       org.label-schema.vendor="Citus Data, Inc." \
-      org.label-schema.version=${VERSION} \
+      org.label-schema.version="10.2" \
       org.label-schema.schema-version="1.0"
 
-ENV CITUS_VERSION ${VERSION}.citus-1
-
-# install Citus
+# install Citus 10.2
+# Setting up postgresql-14-topn (2.4.0) ...
+# Setting up postgresql-14-hll (2.16.citus-1) ...
 RUN apt-get update \
     && apt-get install -y --no-install-recommends \
        ca-certificates \
        curl \
     && curl -s https://install.citusdata.com/community/deb.sh | bash \
-    && apt-get install -y postgresql-$PG_MAJOR-citus-10.1.=$CITUS_VERSION \
-                          postgresql-$PG_MAJOR-hll=2.15.citus-1 \
-                          postgresql-$PG_MAJOR-topn=2.3.1 \
+    && apt-get install -y postgresql-14-citus-10.2 \
+                          postgresql-14-hll \
+                          postgresql-14-topn \
     && apt-get purge -y --auto-remove curl \
     && rm -rf /var/lib/apt/lists/*
 
