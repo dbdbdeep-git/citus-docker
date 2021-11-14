@@ -1,4 +1,6 @@
 #!/bin/bash
 
-docker-compose -p citus up --scale worker=3 --no-recreate worker
-
+for i in $(seq 1 3) ;
+do
+	ID=${i} docker-compose -p citus up --detach --scale worker=${i} --no-recreate worker
+done

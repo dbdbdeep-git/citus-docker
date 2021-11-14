@@ -4,8 +4,9 @@ services:
   master:
     container_name: "${COMPOSE_PROJECT_NAME:-citus}_master"
     image: dbdbdeep-git/citus:10.2
-    ports: ["${COORDINATOR_EXTERNAL_PORT:-5432}:5432"]
     labels: ['com.citusdata.role=Master']
+    hostname: "${COMPOSE_PROJECT_NAME:-citus}_master"
+    ports: ["${COORDINATOR_EXTERNAL_PORT:-5432}:5432"]
     environment: &AUTH
       POSTGRES_USER: "${POSTGRES_USER:-postgres}"
       POSTGRES_PASSWORD: "${POSTGRES_PASSWORD}"
@@ -15,6 +16,7 @@ services:
   worker:
     image: dbdbdeep-git/citus:10.2
     labels: ['com.citusdata.role=Worker']
+    hostname: "${COMPOSE_PROJECT_NAME:-citus}_worker_${ID}"
     depends_on: [ manager ]
     environment: *AUTH
     command: "/wait-for-manager.sh"
